@@ -20,6 +20,7 @@ game.PlayerEntity = me.Entity.extend ({
         this.now = new Date().getTime();
         this.lastHit = this.now;
         this.lastAttack = new Date().getTime();
+        this.dead = false;
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
         
         this.renderable.addAnimation("idle", [130]);
@@ -32,6 +33,11 @@ game.PlayerEntity = me.Entity.extend ({
     
     update: function(delta){
         this.now = new Date().getTime();
+        
+        if(this.health <= 0) {
+            this.dead = true;
+        }
+        
         if(me.input.isKeyPressed("right")) {
             //Sets the position of x by adding the velocity (made in setVelocity)
             //and multiplies it by me.timer.tick. me.timer.tick makes the movement
@@ -78,11 +84,11 @@ game.PlayerEntity = me.Entity.extend ({
     },
     
     loseHealth: function(damage) {
-        this.health = this.health - damage;
-        console.log(this.health);
+        game.data.playerHealth = game.data.playerHealth - damage;
     },
     
     collideHandler: function(response) {
+        this.now = new Date().getTime();
         if(response.b.type === "EnemyBaseEntity") {
             var ydif = this.pos.y - response.b.pos.y;
             var xdif = this.pos.x - response.b.pos.x;
@@ -93,15 +99,15 @@ game.PlayerEntity = me.Entity.extend ({
             }
             else if(xdif > -35 && this.facing === "right" && (xdif < 0)) {
                 this.body.vel.x = 0;
-                this.pos.x = this.pos.x - 1;
+            //    this.pos.x = this.pos.x - 1;
             }
             else if(xdif < 70 && this.facing === "left" && (xdif > 0)) {
                 this.body.vel.x = 0;
-                this.pos.x = this.pos.x + 1;
+            //    this.pos.x = this.pos.x + 1;
             }
             
             if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer) {
-                console.log("Tower Hit");
+                console.log("Tower Hit " + this.now + " lasthit: " + this.lastHit);
                 this.lastHit = this.now;
                 response.b.loseHealth(game.data.playerAttack);               
             }
@@ -111,13 +117,13 @@ game.PlayerEntity = me.Entity.extend ({
                 var ydif = this.pos.y - response.b.pos.y;
                 
                 if(xdif < 0) {
-                    this.pos.x = this.pos.x + 1;
+                //    this.pos.x = this.pos.x + 1;
                     if(this.facing === "left") {
                         this.body.vel.x = 0;
                     }
                 }
                 else {
-                    this.pos.x = this.pos.x - 1;
+                //    this.pos.x = this.pos.x - 1;
                     if(this.facing === "right") {
                         this.body.vel.x = 0;
                     }
@@ -127,8 +133,9 @@ game.PlayerEntity = me.Entity.extend ({
                        && (Math.abs(ydif) <= 40) 
                        && (((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))
                        ) {
+                    console.log("Hit");
                     this.lastHit = this.now;
-                    response.b.loseHealth(1);
+                    response.b.loseHealth(game.data.playerAttack);
             }
         }
         
@@ -148,7 +155,7 @@ game.PlayerBaseEntity = me.Entity.extend ({
                 }
         }]);
         this.broken = false;
-        this.health = 10;
+        this.health = game.data.playerBaseHealth;
         this.alwaysUpdate = true;
         this.body.onCollision = this.onCollision.bind(this);
         
@@ -193,7 +200,7 @@ game.EnemyBaseEntity = me.Entity.extend ({
             }
         }]);
         this.broken = false;
-        this.health = 10;
+        this.health = game.data.enemyBaseHealth;
         this.alwaysUpdate = true;
         this.body.onCollision = this.onCollision.bind(this);
         
@@ -238,7 +245,7 @@ game.EnemyCreep = me.Entity.extend ({
                 return (new me.Rect(0, 0, 32, 64)).toPolygon();
             }
         }]);
-        this.health = 10;
+        this.health = game.data.enemyCreepHealth;
         this.alwaysUpdate = true;
         this.now = new Date().getTime();
         //this.attacking lets us know if the creep is attacking.
@@ -287,11 +294,11 @@ game.EnemyCreep = me.Entity.extend ({
             //Keeps moving the creep to the right to maintain the position.
             this.pos.x = this.pos.x + 1;
             //Checks to see if it has been at leat 1 second until the creep's last base hit.
-            if(this.now - this.lastHit >= 1000) { 
+            if(this.now - this.lastHit >= game.data.enemyCreepAttackTimer) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
                 //Makes the player base call the lose health function and take 1 damage.
-                response.b.loseHealth(1);
+                response.b.loseHealth(game.data.enemyCreepAttack);
             }
         }    
         else if(response.b.type === "PlayerEntity") {
@@ -305,11 +312,11 @@ game.EnemyCreep = me.Entity.extend ({
                 this.body.vel.x = 0;
             }            
             //Checks to see if it has been at leat 1 second until the creep's last player hit.
-            if((this.now - this.lastHit) >= 1000 && xdif > 0) { 
+            if((this.now - this.lastHit) >= game.data.enemyCreepAttackTimer && xdif > 0) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
                 //Makes the player base call the lose health function and take 1 damage.
-                response.b.loseHealth(1);
+                response.b.loseHealth(game.data.enemyCreepAttack);
             }
         }
     }
@@ -325,6 +332,12 @@ game.GameManager = Object.extend ({
     
     update: function() {
         this.now = new Date().getTime();
+        
+        if(game.data.player.dead) {
+            me.game.world.removeChild(game.data.player);
+            me.state.current().resetPlayer(10, 0);
+            
+        }
         
         if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
             this.lastCreep = this.now;
