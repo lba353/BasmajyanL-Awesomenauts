@@ -15,12 +15,15 @@ game.PlayerEntity = me.Entity.extend ({
         this.health = game.data.playerHealth;
         
         this.body.setVelocity(game.data.playerMoveSpeed, 20);
+        
         //Keeps track on where your character is going.
         this.facing = "right";
+        
         this.now = new Date().getTime();
         this.lastHit = this.now;
         this.lastAttack = new Date().getTime();
         this.dead = false;
+        
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
         
         this.renderable.addAnimation("idle", [130]);
@@ -84,7 +87,8 @@ game.PlayerEntity = me.Entity.extend ({
     },
     
     loseHealth: function(damage) {
-        game.data.playerHealth = game.data.playerHealth - damage;
+        this.health = this.health - damage;
+        console.log(this.health);
     },
     
     collideHandler: function(response) {
@@ -116,7 +120,7 @@ game.PlayerEntity = me.Entity.extend ({
                 var xdif = this.pos.x - response.b.pos.x;
                 var ydif = this.pos.y - response.b.pos.y;
                 
-                if(xdif < 0) {
+                if(xdif > 0) {
                 //    this.pos.x = this.pos.x + 1;
                     if(this.facing === "left") {
                         this.body.vel.x = 0;

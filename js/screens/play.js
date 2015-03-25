@@ -6,9 +6,6 @@ game.PlayScreen = me.ScreenObject.extend({
 	    // reset the score
 	    game.data.score = 0;
             me.levelDirector.loadLevel("Test");
-                
-            var player = me.pool.pull("player", 0, 420, {});
-            me.game.world.addChild(player, 5);
             
             this.resetPlayer(0, 420);
                 
