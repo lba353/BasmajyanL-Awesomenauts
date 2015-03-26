@@ -14,6 +14,8 @@ game.PlayerEntity = me.Entity.extend ({
         
         this.health = game.data.playerHealth;
         
+        this.attack = game.data.playerAttack;
+        
         this.body.setVelocity(game.data.playerMoveSpeed, 20);
         
         //Keeps track on where your character is going.
@@ -88,7 +90,6 @@ game.PlayerEntity = me.Entity.extend ({
     
     loseHealth: function(damage) {
         this.health = this.health - damage;
-        console.log(this.health);
     },
     
     collideHandler: function(response) {
@@ -111,7 +112,6 @@ game.PlayerEntity = me.Entity.extend ({
             }
             
             if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer) {
-                console.log("Tower Hit " + this.now + " lasthit: " + this.lastHit);
                 this.lastHit = this.now;
                 response.b.loseHealth(game.data.playerAttack);               
             }
@@ -137,8 +137,13 @@ game.PlayerEntity = me.Entity.extend ({
                        && (Math.abs(ydif) <= 40) 
                        && (((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))
                        ) {
-                    console.log("Hit");
                     this.lastHit = this.now;
+                    //If the creeps code is less than our attack, gain gold for a creep kill.
+                    if(response.b.health <= game.data.playerAttack) {
+                        game.data.gold += 1;
+                        console.log("Current Gold: " + game.data.gold);
+                    }
+                    
                     response.b.loseHealth(game.data.playerAttack);
             }
         }
@@ -330,7 +335,7 @@ game.GameManager = Object.extend ({
     init: function(x, y, settings){
         this.now = new Date().getTime();
         this.lastCreep = new Date().getTime();
-        
+        this.paused = false;
         this.alwaysUpdate = true;
     },
     
@@ -341,6 +346,11 @@ game.GameManager = Object.extend ({
             me.game.world.removeChild(game.data.player);
             me.state.current().resetPlayer(10, 0);
             
+        }
+        
+        if(Math.round(this.now / 1000)%20 === 0 && (this.now - this.lastCreep >= 1000)) {
+            game.data.gold += 1;
+            console.log("Current Gold: " + game.data.gold);
         }
         
         if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
