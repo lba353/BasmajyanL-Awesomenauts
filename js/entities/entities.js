@@ -141,11 +141,7 @@ game.PlayerEntity = me.Entity.extend ({
         }    
         else if(response.b.type === "EnemyCreep") {
             this.collideWithEnemyCreep(response);
-        }
-        else {
-            this.stopMovement();
-        }
-        
+        }        
     },
     
     collideWithEnemyBase: function(response) {
