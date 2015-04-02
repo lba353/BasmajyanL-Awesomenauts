@@ -1,6 +1,6 @@
 game.PlayerEntity = me.Entity.extend ({
     init: function(x, y, settings){
-        this.setSuper();
+        this.setSuper(x, y);
         this.setPlayerTimers();
         this.setAttributes();
         this.setFlags();
@@ -55,7 +55,7 @@ game.PlayerEntity = me.Entity.extend ({
     update: function(delta){
         this.now = new Date().getTime();
         
-        this.dead = checkIfDead();
+        this.dead = this.checkIfDead();
         this.checkKeyPressesAndMovement();
         this.setAnimation();
         
@@ -142,28 +142,31 @@ game.PlayerEntity = me.Entity.extend ({
         else if(response.b.type === "EnemyCreep") {
             this.collideWithEnemyCreep(response);
         }
+        else {
+            this.stopMovement();
+        }
         
     },
     
     collideWithEnemyBase: function(response) {
         var ydif = this.pos.y - response.b.pos.y;
-            var xdif = this.pos.x - response.b.pos.x;
+        var xdif = this.pos.x - response.b.pos.x;
             
-            if(ydif < -40 && xdif < 70  && xdif > -35) {
-                this.body.falling = false;
-                this.body.vel.y = - 1;
-            }
-            else if(xdif > -35 && this.facing === "right" && (xdif < 0)) {
-                this.body.vel.x = 0;
-            }
-            else if(xdif < 70 && this.facing === "left" && (xdif > 0)) {
-                this.body.vel.x = 0;
-            }
+        if(ydif < -40 && xdif < 70  && xdif > -35) {
+            this.body.falling = false;
+            this.body.vel.y = - 1;
+        }
+        else if(xdif > -35 && this.facing === "right" && (xdif < 0)) {
+            this.body.vel.x = 0;
+        }
+        else if(xdif < 70 && this.facing === "left" && (xdif > 0)) {
+            this.body.vel.x = 0;
+        }
             
-            if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer) {
-                this.lastHit = this.now;
-                response.b.loseHealth(game.data.playerAttack);               
-            }
+        if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer) {
+            this.lastHit = this.now;
+            response.b.loseHealth(game.data.playerAttack);               
+        }
     },
     
     collideWithEnemyCreep: function(response) {
@@ -172,18 +175,8 @@ game.PlayerEntity = me.Entity.extend ({
                 
             this.stopMovement(xdif);
                 
-            if((this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer)
-                && (Math.abs(ydif) <= 40) 
-                && (((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))
-                ) {
-                    this.lastHit = this.now;
-                    //If the creeps code is less than our attack, gain gold for a creep kill.
-                    if(response.b.health <= game.data.playerAttack) {
-                        game.data.gold += 1;
-                        console.log("Current Gold: " + game.data.gold);
-                    }
-                    
-            response.b.loseHealth(game.data.playerAttack);
+            if(this.checkAttack(xdif, ydif)) {
+                this.hitCreep(response);
             }
     },
     
@@ -198,5 +191,25 @@ game.PlayerEntity = me.Entity.extend ({
             this.body.vel.x = 0;
             }
         }
+    },
+    
+    checkAttack: function(xdif, ydif) {
+        if((this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer)
+                && (Math.abs(ydif) <= 40) 
+                && (((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))
+                ) {
+                    this.lastHit = this.now;
+                    return true;
+            }
+        return false;
+    },
+    
+    hitCreep: function(response) {
+        //If the creeps code is less than our attack, gain gold for a creep kill.
+        if(response.b.health <= game.data.playerAttack) {
+            game.data.gold += 1;
+            console.log("Current Gold: " + game.data.gold);
+        }
+        response.b.loseHealth(game.data.playerAttack);
     }
 });
