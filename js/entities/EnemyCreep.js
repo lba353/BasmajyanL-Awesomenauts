@@ -55,9 +55,7 @@ game.EnemyCreep = me.Entity.extend ({
             this.attacking = true;
             //this.lastAttacking = this.now;
             this.body.vel.x = 0;
-            //Keeps moving the creep to the right to maintain the position.
-            this.pos.x = this.pos.x + 1;
-            //Checks to see if it has been at leat 1 second until the creep's last base hit.
+            //Checks to see if it has been at least 1 second until the creep's last base hit.
             if(this.now - this.lastHit >= game.data.enemyCreepAttackTimer) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
@@ -71,15 +69,13 @@ game.EnemyCreep = me.Entity.extend ({
             this.attacking = true;
             //this.lastAttacking = this.now;            
             if(xdif > 0) {
-                //Keeps moving the creep to the right to maintain the position.
-                this.pos.x = this.pos.x + 1;
                 this.body.vel.x = 0;
             }            
             //Checks to see if it has been at leat 1 second until the creep's last player hit.
             if((this.now - this.lastHit) >= game.data.enemyCreepAttackTimer && xdif > 0) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
-                //Makes the player base call the lose health function and take 1 damage.
+                //Makes the player entity call the lose health function and take 1 damage.
                 response.b.loseHealth(game.data.enemyCreepAttack);
             }
         }
