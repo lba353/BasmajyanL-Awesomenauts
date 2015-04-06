@@ -64,12 +64,14 @@ game.ExperienceManager = Object.extend ({
     gameOverWin: function() {
         game.data.exp += 10;
         this.gameOver = true;
+        console.log(game.data.exp);
         me.save.exp = game.data.exp;
     },
     
     gameOverLose: function() {
         game.data.exp += 1;
         this.gameOver = true;
+        console.log(game.data.exp);
         me.save.exp = game.data.exp;
     }
 });
