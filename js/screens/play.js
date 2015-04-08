@@ -17,11 +17,19 @@ game.PlayScreen = me.ScreenObject.extend({
             
             var experienceManager = me.pool.pull("ExperienceManager", 0, 0, {});
             me.game.world.addChild(experienceManager, 0);
+            
+            var spendGold = me.pool.pull("SpendGold", 0, 0, {});
+            me.game.world.addChild(spendGold, 0);
                 
             me.input.bindKey(me.input.KEY.RIGHT, "right");
             me.input.bindKey(me.input.KEY.LEFT, "left");
-            me.input.bindKey(me.input.KEY.SPACE, "jump");
+            me.input.bindKey(me.input.KEY.UP, "jump");
             me.input.bindKey(me.input.KEY.A, "attack");
+            
+            me.input.bindKey(me.input.KEY.B, "buy");
+            me.input.bindKey(me.input.KEY.Q, "skills1");
+            me.input.bindKey(me.input.KEY.W, "skills2");
+            me.input.bindKey(me.input.KEY.E, "skills3");
 
 	    // add our HUD to the game world
 	    this.HUD = new game.HUD.Container();
