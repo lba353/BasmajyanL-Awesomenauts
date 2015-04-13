@@ -1,81 +1,3 @@
-game.GameTimerManager = Object.extend ({
-    init: function(x, y, settings){
-        this.now = new Date().getTime();
-        this.lastCreep = new Date().getTime();
-        this.paused = false;
-        this.alwaysUpdate = true;
-    },
-    
-    update: function() {
-        this.now = new Date().getTime();
-        
-        this.goldTimerCheck();
-        this.creepTimerCheck();
-        
-        return true;
-    },
-    
-    goldTimerCheck: function() {
-        if(Math.round(this.now / 1000)%20 === 0 && (this.now - this.lastCreep >= 1000)) {
-            game.data.gold += (game.data.exp1 + 1);
-            console.log("Current Gold: " + game.data.gold);
-        }
-    },
-    
-    creepTimerCheck: function() {
-        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
-            this.lastCreep = this.now;
-            var creepe = me.pool.pull("EnemyCreep", 1000, 0, {});
-            me.game.world.addChild(creepe, 5);
-        }
-    }
-});
-
-game.HeroDeathManager = Object.extend ({
-    init: function(x, y, settings){
-        this.alwaysUpdate = true;
-    },
-    
-    update: function() {
-        if(game.data.player.dead) {
-            me.game.world.removeChild(game.data.player);
-            me.state.current().resetPlayer(10, 0);
-            
-        }
-    }
-});
-
-game.ExperienceManager = Object.extend ({
-    init: function(x, y, settings) {
-        this.alwaysUpdate = true;
-        this.gameOver = false;
-    },
-    
-    update: function() {
-        if(game.data.win === true && !this.gameOver) {
-            this.gameOverWin();
-        }
-        else if(game.data.win === false && !this.gameOver) {
-            this.gameOverLose();
-        }
-        return true;
-    },
-    
-    gameOverWin: function() {
-        game.data.exp += 10;
-        this.gameOver = true;
-        console.log(game.data.exp);
-        me.save.exp = game.data.exp;
-    },
-    
-    gameOverLose: function() {
-        game.data.exp += 1;
-        this.gameOver = true;
-        console.log(game.data.exp);
-        me.save.exp = game.data.exp;
-    }
-});
-
 game.SpendGold = Object.extend ({
     init: function(x, y, settings){
         this.now = new Date().getTime();
@@ -153,11 +75,11 @@ game.SpendGold = Object.extend ({
         game.data.player.body.setVelocity(game.data.playerMoveSpeed, 20);
         
         me.input.unbindKey(me.input.KEY.F1, "F1", true);
-        me.input.unbindKey(me.input.KEY.F1, "F2", true);
-        me.input.unbindKey(me.input.KEY.F1, "F3", true);
-        me.input.unbindKey(me.input.KEY.F1, "F4", true);
-        me.input.unbindKey(me.input.KEY.F1, "F5", true);
-        me.input.unbindKey(me.input.KEY.F1, "F6", true);
+        me.input.unbindKey(me.input.KEY.F2, "F2", true);
+        me.input.unbindKey(me.input.KEY.F3, "F3", true);
+        me.input.unbindKey(me.input.KEY.F4, "F4", true);
+        me.input.unbindKey(me.input.KEY.F5, "F5", true);
+        me.input.unbindKey(me.input.KEY.F6, "F6", true);
         me.game.world.removeChild(game.data.buyText);
     },
     
@@ -222,17 +144,17 @@ game.SpendGold = Object.extend ({
         if(skill === 1) {
             game.data.gold -= (game.data.skill1 + 1) * 10;
             game.data.skill1 += 1;
-            game.data.player.attack += 1;
+            game.data.playerAttack += 1;
         }
         else if(skill === 2) {
             game.data.gold -= (game.data.skill2 + 1) * 10;
             game.data.skill2 += 1;
-            game.data.player.body.setVelocity += 1;
+            game.data.playerMoveSpeed += 1;
         }
         else if(skill === 3) {
             game.data.gold -= (game.data.skill3 + 1) * 10;
             game.data.skill3 += 1;
-            game.data.player.health += 1;
+            game.data.playerHealth += 5;
         }
         else if(skill === 4) {
             game.data.gold -= (game.data.ability1 + 1) * 10;
