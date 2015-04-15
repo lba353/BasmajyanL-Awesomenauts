@@ -1,8 +1,6 @@
 <?php
-    //Requires the header, config, and footer files.
-    require_once (__DIR__ . "/../View/Header.php");
+    //Requires the config file.
     require_once (__DIR__ . "/../Model/Config.php");
-    require_once (__DIR__ . "/../View/Footer.php");
     
     //Sets the username, and password variables.
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
@@ -29,17 +27,14 @@
             . "exp2 = 0, "
             . "exp3 = 0, "
             . "exp4 = 0");
-           header("Location: " . $path . "index.php");
            //Need this for Ajax on index.php
-           echo "True";
+           echo "true";
            $SESSION["name"] = $username;
        }
        else {
-           header("Location: " . $path . "index.php");
            echo "Username already exists";
        }
    }
     else {
-        header("Location: " . $path . "index.php");
         echo "<p>" . $_SESSION["connection"]->error . "</p>";
     }

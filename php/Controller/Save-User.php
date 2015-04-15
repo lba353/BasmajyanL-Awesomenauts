@@ -12,4 +12,11 @@
             . "exp1 = $exp1,"
             . "exp2 = $exp2,"
             . "exp3 = $exp3,"
-            . "exp4 =  $exp4");
+            . "exp4 =  $exp4 WHERE username = \"" . $SESSION["name"] . "\"");
+    
+    if($query) {
+        echo "true";
+    }
+    else {
+        echo "<p>" . $_SESSION["connection"]->error . "</p>";
+    }
