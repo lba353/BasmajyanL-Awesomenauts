@@ -29,7 +29,7 @@
             . "exp4 = 0");
            //Need this for Ajax on index.php
            echo "true";
-           $SESSION["name"] = $username;
+           $_SESSION["name"] = $username;
        }
        else {
            echo "Username already exists";

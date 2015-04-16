@@ -1,14 +1,12 @@
 <?php
-    require_once (__DIR__ . "/../View/Header.php");
     require_once (__DIR__ . "/../Model/Config.php");
-    require_once (__DIR__ . "/../View/Footer.php");
     
     $array = array(
         'exp' => '',
         'exp1' => '',
         'exp2' => '',
         'exp3' => '',
-        'exp4' => '',
+        'exp4' => ''
     );
     
     //Adds username and password input to login your user.
@@ -29,7 +27,7 @@
             $array["exp2"] = $row["exp2"];
             $array["exp3"] = $row["exp3"];
             $array["exp4"] = $row["exp4"];
-            $SESSION["name"] = $username;
+            $_SESSION["name"] = $username;
             echo json_encode($array);
         }
         else {
