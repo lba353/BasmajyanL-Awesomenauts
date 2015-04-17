@@ -37,11 +37,11 @@ game.SpendGold = Object.extend ({
         game.data.player.body.setVelocity(0, 0);
         
         me.input.bindKey(me.input.KEY.F1, "F1", true);
-        me.input.bindKey(me.input.KEY.F1, "F2", true);
-        me.input.bindKey(me.input.KEY.F1, "F3", true);
-        me.input.bindKey(me.input.KEY.F1, "F4", true);
-        me.input.bindKey(me.input.KEY.F1, "F5", true);
-        me.input.bindKey(me.input.KEY.F1, "F6", true);
+        me.input.bindKey(me.input.KEY.F2, "F2", true);
+        me.input.bindKey(me.input.KEY.F3, "F3", true);
+        me.input.bindKey(me.input.KEY.F4, "F4", true);
+        me.input.bindKey(me.input.KEY.F5, "F5", true);
+        me.input.bindKey(me.input.KEY.F6, "F6", true);
         
         this.setBuyText();
     },
@@ -50,7 +50,7 @@ game.SpendGold = Object.extend ({
         game.data.buyText = new (me.Renderable.extend({
             init: function() {
                 this._super(me.Renderable, "init", [game.data.pausePos.x, game.data.pausePos.y, 300, 50]);
-                this.font = new me.Font("Arial", 26, "green");
+                this.font = new me.Font("Arial", 26, "yellow");
                 this.updateWhenPaused = true;
                 this.alwaysUpdate = true;
             },
@@ -87,6 +87,7 @@ game.SpendGold = Object.extend ({
         if(me.input.isKeyPressed("F1")) {
             if(this.checkCost(1)){
                 this.makePurchase(1);
+                
             }
         }
         else if(me.input.isKeyPressed("F2")) {

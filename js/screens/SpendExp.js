@@ -37,6 +37,7 @@ game.SpendExp = me.ScreenObject.extend({
                         if(game.data.exp >= exp1cost) {
                             game.data.exp1 += 1;
                             game.data.exp -= exp1cost;
+                            exp1cost = ((Number(game.data.exp1) + 1) * 10);
                         }
                         else {
                             console.log("NOT ENOUGH EXPERIENCE");
