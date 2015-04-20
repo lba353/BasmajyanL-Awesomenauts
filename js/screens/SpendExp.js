@@ -12,6 +12,9 @@ game.SpendExp = me.ScreenObject.extend({
                 me.input.bindKey(me.input.KEY.F5, "F5");
                 
                 var exp1cost = ((Number(game.data.exp1) + 1) * 10);
+                var exp2cost = ((Number(game.data.exp1) + 1) * 15);
+                var exp3cost = ((Number(game.data.exp1) + 1) * 30);
+                var exp4cost = ((Number(game.data.exp1) + 1) * 30);
                 
                 me.game.world.addChild(new (me.Renderable.extend({
                     init: function() {
@@ -23,9 +26,9 @@ game.SpendExp = me.ScreenObject.extend({
                         this.font.draw(renderer.getContext(), "PRESS F1-F4 TO BUY, F5 TO SKIP", this.pos.x, this.pos.y);
                         this.font.draw(renderer.getContext(), "CURRENT EXP: " + game.data.exp.toString(), this.pos.x + 100, this.pos.y + 50);
                         this.font.draw(renderer.getContext(), "F1: INCREASE GOLD PRODUCTION! (Current Level: Level " + game.data.exp1.toString() + ")" + " COST: " + exp1cost, this.pos.x, this.pos.y + 150);
-                        this.font.draw(renderer.getContext(), "F2: INCREASE STARTING GOLD!", this.pos.x, this.pos.y + 200);
-                        this.font.draw(renderer.getContext(), "F3: INCREASE DAMAGE!", this.pos.x, this.pos.y + 250);
-                        this.font.draw(renderer.getContext(), "F4: INCREASE STARTING HEALTH!", this.pos.x, this.pos.y + 300);
+                        this.font.draw(renderer.getContext(), "F2: INCREASE STARTING GOLD! (Current Level: Level " + game.data.exp2.toString() + ")" + " COST: " + exp2cost, this.pos.x, this.pos.y + 200);
+                        this.font.draw(renderer.getContext(), "F3: INCREASE DAMAGE! (Current Level: Level " + game.data.exp3.toString() + ")" + " COST: " + exp3cost,this.pos.x, this.pos.y + 250);
+                        this.font.draw(renderer.getContext(), "F4: INCREASE STARTING HEALTH! (Current Level: Level " + game.data.exp4.toString() + ")" + " COST: " + exp4cost,this.pos.x, this.pos.y + 300);
                     },
                     
                     update: function() {
@@ -44,7 +47,14 @@ game.SpendExp = me.ScreenObject.extend({
                         }
                     }
                     else if(action === "F2") {
-                        
+                        if(game.data.exp >= exp2cost) {
+                            game.data.exp2 += 1;
+                            game.data.exp -= exp2cost;
+                            exp2cost = ((Number(game.data.exp1) + 1) * 15);
+                        }
+                        else {
+                            console.log("NOT ENOUGH EXPERIENCE");
+                        }
                     }
                     else if(action === "F3") {
                         

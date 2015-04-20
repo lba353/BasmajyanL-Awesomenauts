@@ -87,7 +87,6 @@ game.SpendGold = Object.extend ({
         if(me.input.isKeyPressed("F1")) {
             if(this.checkCost(1)){
                 this.makePurchase(1);
-                
             }
         }
         else if(me.input.isKeyPressed("F2")) {

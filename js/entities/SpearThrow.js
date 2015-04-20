@@ -11,8 +11,6 @@ game.SpearThrow = me.Entity.extend({
             }
         }]);
         
-        console.log("Spear init");
-        
         this.alwaysUpdate = true;
         this.body.setVelocity(8, 0);
         

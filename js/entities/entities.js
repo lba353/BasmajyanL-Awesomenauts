@@ -127,9 +127,7 @@ game.PlayerEntity = me.Entity.extend ({
     },
     
     throwSpear: function() {
-        console.log(this.lastSpear + " " + this.now + " " + game.data.spearTimer + " " + game.data.ability3)
-        if(this.lastSpear - this.now >= game.data.spearTimer && game.data.ability3 > 0) {
-            
+        if(this.now - this.lastSpear >= game.data.spearTimer && game.data.ability3 > 0) {
             this.lastSpear = this.now;
             var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {}, this.facing);
             me.game.world.addChild(spear, 10);
