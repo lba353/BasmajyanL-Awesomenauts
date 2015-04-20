@@ -136,7 +136,7 @@
                                 }
                                 else {
                                     var data = jQuery.parseJSON(response);
-                                    game.data.exp = data["exp"];
+                                    game.data.exp = Number(data["exp"]);
                                     game.data.exp1 = data["exp1"];
                                     game.data.exp2 = data["exp2"];
                                     game.data.exp3 = data["exp3"];
