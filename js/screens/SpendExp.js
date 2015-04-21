@@ -12,9 +12,9 @@ game.SpendExp = me.ScreenObject.extend({
                 me.input.bindKey(me.input.KEY.F5, "F5");
                 
                 var exp1cost = ((Number(game.data.exp1) + 1) * 10);
-                var exp2cost = ((Number(game.data.exp1) + 1) * 15);
-                var exp3cost = ((Number(game.data.exp1) + 1) * 30);
-                var exp4cost = ((Number(game.data.exp1) + 1) * 30);
+                var exp2cost = ((Number(game.data.exp2) + 1) * 15);
+                var exp3cost = ((Number(game.data.exp3) + 1) * 30);
+                var exp4cost = ((Number(game.data.exp4) + 1) * 30);
                 
                 me.game.world.addChild(new (me.Renderable.extend({
                     init: function() {
@@ -50,7 +50,7 @@ game.SpendExp = me.ScreenObject.extend({
                         if(game.data.exp >= exp2cost) {
                             game.data.exp2 += 1;
                             game.data.exp -= exp2cost;
-                            exp2cost = ((Number(game.data.exp1) + 1) * 15);
+                            exp2cost = ((Number(game.data.exp2) + 1) * 15);
                         }
                         else {
                             console.log("NOT ENOUGH EXPERIENCE");

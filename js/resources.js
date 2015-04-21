@@ -12,6 +12,7 @@ game.resources = [
         {name: "title-screen", type:"image", src: "data/img/title.png"},
         {name: "exp-screen", type:"image", src: "data/img/loadpic.png"},
         {name: "gold-screen", type:"image", src: "data/img/spend.png"},
+        {name: "pause-screen", type:"image", src: "data/img/pause.png"},
         {name: "load-screen", type:"image", src: "data/img/loadpic.png"},
         {name: "new-screen", type:"image", src: "data/img/newpic.png"},
         {name: "spear", type:"image", src: "data/img/spear.png"},

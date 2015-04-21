@@ -60,6 +60,7 @@
                 <script type="text/javascript" src="js/screens/SpendExp.js"></script>
                 <script type="text/javascript" src="js/screens/LoadProfile.js"></script>
                 <script type="text/javascript" src="js/screens/NewProfile.js"></script>
+                <script type="text/javascript" src="js/screens/Pause.js"></script>
                 
                 <script type="text/javascript" src="js/gamemanagers/GameManager.js"></script>
                 <script type="text/javascript" src="js/gamemanagers/GameTimerManager.js"></script>
