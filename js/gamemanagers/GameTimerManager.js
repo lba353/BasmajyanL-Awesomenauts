@@ -10,6 +10,7 @@ game.GameTimerManager = Object.extend ({
         this.now = new Date().getTime();
         
         this.goldTimerCheck();
+        this.teamCreepTimerCheck();
         this.creepTimerCheck();
         
         return true;
@@ -19,6 +20,14 @@ game.GameTimerManager = Object.extend ({
         if(Math.round(this.now / 1000)%20 === 0 && (this.now - this.lastCreep >= 1000)) {
             game.data.gold += Number(game.data.exp1 + 1);
             console.log("Current Gold: " + game.data.gold);
+        }
+    },
+    
+    teamCreepTimerCheck: function() {
+        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
+            this.lastCreep = this.now;
+            var creept = me.pool.pull("TeamCreep", 1000, 0, {});
+            me.game.world.addChild(creept, 5);
         }
     },
     
