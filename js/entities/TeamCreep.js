@@ -24,7 +24,7 @@ game.TeamCreep = me.Entity.extend ({
         
         this.type = "TeamCreep";
         
-        this.renderable.addAnimation("walk", [3, 4, 5], 80);
+        this.renderable.addAnimation("walk", [6, 7, 8], 80);
         this.renderable.setCurrentAnimation("walk");
         
     },
