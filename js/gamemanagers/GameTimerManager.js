@@ -1,7 +1,9 @@
 game.GameTimerManager = Object.extend ({
     init: function(x, y, settings){
         this.now = new Date().getTime();
-        this.lastCreep = new Date().getTime();
+        this.lastTeamCreep = new Date().getTime();
+        this.lastEnemyCreep = new Date().getTime();
+        this.lastEnemyPlayer = new Date().getTime();
         this.paused = false;
         this.alwaysUpdate = true;
     },
@@ -24,18 +26,26 @@ game.GameTimerManager = Object.extend ({
     },
     
     teamCreepTimerCheck: function() {
-        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
-            this.lastCreep = this.now;
+        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastTeamCreep >= 1000)) {
+            this.lastTeamCreep = this.now;
             var creept = me.pool.pull("TeamCreep", 0, 0, {});
             me.game.world.addChild(creept, 5);
         }
     },
     
     creepTimerCheck: function() {
-        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastCreep >= 1000)) {
-            this.lastCreep = this.now;
+        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastEnemyCreep >= 1000)) {
+            this.lastEnemyCreep = this.now;
             var creepe = me.pool.pull("EnemyCreep", 1018, 0, {});
             me.game.world.addChild(creepe, 5);
+        }
+    },
+    
+    enemyPlayerTimerCheck: function() {
+        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastEnemyPlayer >= 1000)) {
+            this.lastEnemyPlayer = this.now;
+            var playere = me.pool.pull("EnemyPlayerEntity", 1018, 0, {});
+            me.game.world.addChild(playere, 5);
         }
     }
 });

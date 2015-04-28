@@ -1,30 +1,31 @@
-game.TeamCreep = me.Entity.extend ({
+game.EnemyPlayerEntity = me.Entity.extend ({
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
-            image: "creep2",
-            width: 32,
+            image: "orc",
+            width: 64,
             height: 64,
-            spritewidth: "32",
+            spritewidth: "64",
             spriteheight: "64",
             getShape: function() {
-                return (new me.Rect(0, 0, 32, 64)).toPolygon();
+                return (new me.Rect(0, 0, 64, 64)).toPolygon();
             }
         }]);
-        this.health = game.data.enemyCreepHealth;
+        this.health = 20;
         this.alwaysUpdate = true;
         this.now = new Date().getTime();
-        //this.attacking lets us know if the creep is attacking.
+        //this.attacking lets us know if the enemy hero is attacking.
         this.attacking = false;
-        //Keeps track of when the creep last attacked.
+        //Keeps track of when the enemy hero last attacked.
         this.lastAttacking = new Date().getTime();
-        //Keeps track of the last time the creep hit anything.
+        //Keeps track of the last time the enemy hero hit anything.
         this.lastHit = new Date().getTime();
         
         this.body.setVelocity(3, 20);
         
-        this.type = "TeamCreep";
+        this.type = "EnemyPlayerEntity";
         
-        this.renderable.addAnimation("walk", [6, 7, 8], 80);
+        this.renderable.addAnimation("walk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 80);
+        this.renderable.addAnimation("attack", [91, 92, 93, 94, 95, 96, 97, 98], 80);
         this.renderable.setCurrentAnimation("walk");
         
     },
@@ -38,9 +39,11 @@ game.TeamCreep = me.Entity.extend ({
             me.game.world.removeChild(this);
         }
         
+        this.flipX(true);
+        
         this.now = new Date().getTime();
         
-        this.body.vel.x += this.body.accel.x * me.timer.tick;
+        this.body.vel.x -= this.body.accel.x * me.timer.tick;
         
         me.collision.check(this, true, this.collideHandler.bind(this), true); 
         
@@ -51,7 +54,9 @@ game.TeamCreep = me.Entity.extend ({
     },
     
     collideHandler: function(response) {
-        if(response.b.type === "EnemyBaseEntity") {
+        if(response.b.type === "PlayerBaseEntity") {
+            this.renderable.setCurrentAnimation("attack", "idle");
+            
             this.attacking = true;
             //this.lastAttacking = this.now;
             this.body.vel.x = 0;
@@ -63,8 +68,10 @@ game.TeamCreep = me.Entity.extend ({
                 response.b.loseHealth(game.data.enemyCreepAttack);
             }
         }    
-        else if(response.b.type === "EnemyPlayerEntity" || response.b.type === "EnemyCreep") {
+        else if(response.b.type === "PlayerEntity" || response.b.type === "TeamCreep") {
             var xdif = this.pos.x - response.b.pos.x;
+            
+            this.renderable.setCurrentAnimation("attack", "idle");
             
             this.attacking = true;
             //this.lastAttacking = this.now;            

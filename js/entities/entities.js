@@ -17,7 +17,7 @@ game.PlayerEntity = me.Entity.extend ({
     
     setSuper: function(x, y) {
         this._super(me.Entity, "init", [x, y, {
-            image: "player",
+            image: "orc",
             width: 64,
             height: 64,
             spritewidth: "64",

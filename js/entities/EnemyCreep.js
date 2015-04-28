@@ -17,7 +17,7 @@ game.EnemyCreep = me.Entity.extend ({
         this.attacking = false;
         //Keeps track of when the creep last attacked.
         this.lastAttacking = new Date().getTime();
-        //Keeps track of the last time the creep it anything.
+        //Keeps track of the last time the creep hit anything.
         this.lastHit = new Date().getTime();
         
         this.body.setVelocity(3, 20);
@@ -63,7 +63,7 @@ game.EnemyCreep = me.Entity.extend ({
                 response.b.loseHealth(game.data.enemyCreepAttack);
             }
         }    
-        else if(response.b.type === "PlayerEntity") {
+        else if(response.b.type === "PlayerEntity" || response.b.type === "TeamCreep") {
             var xdif = this.pos.x - response.b.pos.x;
             
             this.attacking = true;

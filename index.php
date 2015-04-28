@@ -55,6 +55,7 @@
 		<script type="text/javascript" src="js/entities/HUD.js"></script>
                 <script type="text/javascript" src="js/entities/SpearThrow.js"></script>
                 <script type="text/javascript" src="js/entities/TeamCreep.js"></script>
+                <script type="text/javascript" src="js/entities/EnemyPlayer.js"></script>
 
 		<script type="text/javascript" src="js/screens/title.js"></script>
 		<script type="text/javascript" src="js/screens/play.js"></script>
