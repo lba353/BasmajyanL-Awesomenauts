@@ -14,6 +14,7 @@ game.GameTimerManager = Object.extend ({
         this.goldTimerCheck();
         this.teamCreepTimerCheck();
         this.creepTimerCheck();
+        this.enemyPlayerTimerCheck();
         
         return true;
     },
@@ -42,9 +43,9 @@ game.GameTimerManager = Object.extend ({
     },
     
     enemyPlayerTimerCheck: function() {
-        if(Math.round(this.now / 1000)%10 === 0 && (this.now - this.lastEnemyPlayer >= 1000)) {
+        if(Math.round(this.now / 1000)%20 === 0 && (this.now - this.lastEnemyPlayer >= 1000)) {
             this.lastEnemyPlayer = this.now;
-            var playere = me.pool.pull("EnemyPlayerEntity", 1018, 0, {});
+            var playere = me.pool.pull("enemyPlayer", 1018, 0, {});
             me.game.world.addChild(playere, 5);
         }
     }

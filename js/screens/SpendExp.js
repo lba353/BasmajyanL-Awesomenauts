@@ -43,7 +43,7 @@ game.SpendExp = me.ScreenObject.extend({
                             exp1cost = ((Number(game.data.exp1) + 1) * 10);
                         }
                         else {
-                            console.log("NOT ENOUGH EXPERIENCE");
+                            alert ("NOT ENOUGH EXPERIENCE");
                         }
                     }
                     else if(action === "F2") {
@@ -53,14 +53,28 @@ game.SpendExp = me.ScreenObject.extend({
                             exp2cost = ((Number(game.data.exp2) + 1) * 15);
                         }
                         else {
-                            console.log("NOT ENOUGH EXPERIENCE");
+                            alert ("NOT ENOUGH EXPERIENCE");
                         }
                     }
                     else if(action === "F3") {
-                        
+                        if(game.data.exp >= exp3cost) {
+                            game.data.exp3 += 1;
+                            game.data.exp -= exp3cost;
+                            exp3cost = ((Number(game.data.exp3) + 1) * 30);
+                        }
+                        else {
+                            alert ("NOT ENOUGH EXPERIENCE");
+                        }
                     }
                     else if(action === "F4") {
-                        
+                        if(game.data.exp >= exp4cost) {
+                            game.data.exp4 += 1;
+                            game.data.exp -= exp4cost;
+                            exp4cost = ((Number(game.data.exp4) + 1) * 30);
+                        }
+                        else {
+                            alert ("NOT ENOUGH EXPERIENCE");
+                        }
                     }
                     else if(action === "F5") {
                         me.state.change(me.state.PLAY);

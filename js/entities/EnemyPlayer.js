@@ -55,35 +55,36 @@ game.EnemyPlayerEntity = me.Entity.extend ({
     
     collideHandler: function(response) {
         if(response.b.type === "PlayerBaseEntity") {
-            this.renderable.setCurrentAnimation("attack", "idle");
-            
             this.attacking = true;
+            if(!this.renderable.setCurrentAnimation("attack")) {
+                
+            }
             //this.lastAttacking = this.now;
             this.body.vel.x = 0;
             //Checks to see if it has been at least 1 second until the creep's last base hit.
-            if(this.now - this.lastHit >= game.data.enemyCreepAttackTimer) { 
+            if(this.now - this.lastHit >= 1000) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
                 //Makes the player base call the lose health function and take 1 damage.
-                response.b.loseHealth(game.data.enemyCreepAttack);
+                response.b.loseHealth(1);
             }
         }    
         else if(response.b.type === "PlayerEntity" || response.b.type === "TeamCreep") {
             var xdif = this.pos.x - response.b.pos.x;
             
-            this.renderable.setCurrentAnimation("attack", "idle");
+            this.renderable.setCurrentAnimation("attack");
             
             this.attacking = true;
             //this.lastAttacking = this.now;            
             if(xdif > 0) {
                 this.body.vel.x = 0;
             }            
-            //Checks to see if it has been at leat 1 second until the creep's last player hit.
-            if((this.now - this.lastHit) >= game.data.enemyCreepAttackTimer && xdif > 0) { 
+            //Checks to see if it has been at leat 1 second until the enemy hero's last player hit.
+            if((this.now - this.lastHit) >= 1000 && xdif > 0) { 
                 //Updates lastHit timer.
                 this.lastHit = this.now;
                 //Makes the player entity call the lose health function and take 1 damage.
-                response.b.loseHealth(game.data.enemyCreepAttack);
+                response.b.loseHealth(1);
             }
         }
     }
