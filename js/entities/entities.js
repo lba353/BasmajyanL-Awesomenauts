@@ -162,8 +162,8 @@ game.PlayerEntity = me.Entity.extend ({
         if(response.b.type === "EnemyBaseEntity") {
             this.collideWithEnemyBase(response);            
         }    
-        else if(response.b.type === "EnemyCreep") {
-            this.collideWithEnemyCreep(response);
+        else if(response.b.type === "EnemyCreep" || response.b.type === "EnemyPlayerEntity") {
+            this.collideWithEnemyTeam(response);
         }        
     },
     
@@ -188,7 +188,7 @@ game.PlayerEntity = me.Entity.extend ({
         }
     },
     
-    collideWithEnemyCreep: function(response) {
+    collideWithEnemyTeam: function(response) {
             var xdif = this.pos.x - response.b.pos.x;
             var ydif = this.pos.y - response.b.pos.y;
                 

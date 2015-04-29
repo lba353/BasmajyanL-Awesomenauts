@@ -20,7 +20,7 @@ game.EnemyPlayerEntity = me.Entity.extend ({
         //Keeps track of the last time the enemy hero hit anything.
         this.lastHit = new Date().getTime();
         
-        this.body.setVelocity(3, 20);
+        this.body.setVelocity(5, 20);
         
         this.type = "EnemyPlayerEntity";
         
@@ -56,8 +56,13 @@ game.EnemyPlayerEntity = me.Entity.extend ({
     collideHandler: function(response) {
         if(response.b.type === "PlayerBaseEntity") {
             this.attacking = true;
-            if(!this.renderable.setCurrentAnimation("attack")) {
-                
+            
+            if(!this.renderable.setCurrentAnimation("attack") && this.attacking) {
+                this.renderable.setCurrentAnimation("attack");
+                this.renderable.setAnimationFrame();
+            }
+            else {
+                this.renderable.setCurrentAnimation("walk");
             }
             //this.lastAttacking = this.now;
             this.body.vel.x = 0;
@@ -72,9 +77,16 @@ game.EnemyPlayerEntity = me.Entity.extend ({
         else if(response.b.type === "PlayerEntity" || response.b.type === "TeamCreep") {
             var xdif = this.pos.x - response.b.pos.x;
             
-            this.renderable.setCurrentAnimation("attack");
-            
             this.attacking = true;
+            
+            if(!this.renderable.setCurrentAnimation("attack") && this.attacking) {
+                this.renderable.setCurrentAnimation("attack");
+                this.renderable.setAnimationFrame();
+            }
+            else {
+                this.renderable.setCurrentAnimation("walk");
+            }
+            
             //this.lastAttacking = this.now;            
             if(xdif > 0) {
                 this.body.vel.x = 0;

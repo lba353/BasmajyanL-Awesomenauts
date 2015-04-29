@@ -56,22 +56,16 @@ game.HUD.ScoreItem = me.Renderable.extend({
 	 * update function
 	 */
 	update : function () {
-		// we don't do anything fancy here, so just
-		// return true if the score has been updated
-		if (this.score !== game.data.score) {	
-			this.score = game.data.score;
-			return true;
-		}
-		return false;
+		return true;
 	},
 
 	/**
 	 * draw the score
 	 */
 	draw : function(renderer) {
-		this.font.draw(renderer.getContext(), "Gold: " + game.data.gold, this.pos.x + 600, this.pos.y);
-                this.font.draw(renderer.getContext(), "Attack: " + game.data.playerAttack, this.pos.x + 800, this.pos.y);
-                this.font.draw(renderer.getContext(), "Health: " + game.data.playerHealth, this.pos.x + 1000, this.pos.y);
+		this.font.draw(renderer.getContext(), "Gold: " + game.data.gold, this.pos.x + 500, this.pos.y);
+                this.font.draw(renderer.getContext(), "Attack: " + game.data.playerAttack, this.pos.x + 700, this.pos.y);
+                this.font.draw(renderer.getContext(), "Health: " + game.data.playerHealth, this.pos.x + 900, this.pos.y);
 	}
 
 });
