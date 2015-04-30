@@ -63,9 +63,8 @@ game.HUD.ScoreItem = me.Renderable.extend({
 	 * draw the score
 	 */
 	draw : function(renderer) {
-		this.font.draw(renderer.getContext(), "Gold: " + game.data.gold, this.pos.x + 500, this.pos.y);
-                this.font.draw(renderer.getContext(), "Attack: " + game.data.playerAttack, this.pos.x + 700, this.pos.y);
-                this.font.draw(renderer.getContext(), "Health: " + game.data.playerHealth, this.pos.x + 900, this.pos.y);
+		this.font.draw(renderer.getContext(), "Gold: " + game.data.gold, this.pos.x + 700, this.pos.y);
+                this.font.draw(renderer.getContext(), "Attack: " + game.data.playerAttack, this.pos.x + 900, this.pos.y);
 	}
 
 });

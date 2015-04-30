@@ -5,7 +5,7 @@ game.PlayScreen = me.ScreenObject.extend({
 	onResetEvent: function() {
 	    // reset the score
 	    game.data.score = 0;
-            me.levelDirector.loadLevel("Test");
+            me.levelDirector.loadLevel("Level01");
             
             game.data.gold += Number(game.data.exp2 * 5);
             
@@ -25,6 +25,9 @@ game.PlayScreen = me.ScreenObject.extend({
             
             var pause = me.pool.pull("PauseScreen", 0, 0, {});
             me.game.world.addChild(pause, 0);
+            
+            game.data.minimap = me.pool.pull("minimap", 10, 10, {});
+            me.game.world.addChild(game.data.minimap, 30);
                 
             me.input.bindKey(me.input.KEY.RIGHT, "right");
             me.input.bindKey(me.input.KEY.LEFT, "left");
