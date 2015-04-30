@@ -1,4 +1,4 @@
-game.EnemyCreep = me.Entity.extend ({
+game.EnemyCreep = me.Entity.extend ({ //Similar to TeamCreep.
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
             image: "creep1",
@@ -40,6 +40,7 @@ game.EnemyCreep = me.Entity.extend ({
         
         this.now = new Date().getTime();
         
+        //Moves the creep to the left.
         this.body.vel.x -= this.body.accel.x * me.timer.tick;
         
         me.collision.check(this, true, this.collideHandler.bind(this), true); 

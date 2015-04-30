@@ -1,4 +1,4 @@
-game.PlayerBaseEntity = me.Entity.extend ({
+game.PlayerBaseEntity = me.Entity.extend ({ //Similar to EnemyBaseEntity
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
             image: "tower",
@@ -23,6 +23,7 @@ game.PlayerBaseEntity = me.Entity.extend ({
     },
     
     update: function(delta) {
+        //If the base is broken, set broken to true, win to false, and set the animation to broken.
         if(this.health <= 0) {
             this.broken = true;
             game.data.win = false;

@@ -1,4 +1,5 @@
 game.PauseScreen = Object.extend ({
+    //Initializes the following variables used in this file.
     init: function(x, y, settings){
         this.now = new Date().getTime();
         this.lastPause = new Date().getTime();
@@ -11,6 +12,7 @@ game.PauseScreen = Object.extend ({
     update: function() {
         this.now = new Date().getTime();
         
+        //If the "pause" screen is set and it hase been 1 seconds since the last pause, start pauseing.
         if(me.input.isKeyPressed("pause") && this.now - this.lastPause >= 1000) {
             this.lastPause = this.now;
             if(!this.paused) {
@@ -24,6 +26,7 @@ game.PauseScreen = Object.extend ({
         return true;
     },
     
+    //The following makes the game pauses the game, pulls up an image, and sets the velocity to 0. Also sets up pause text.
     startPauseing: function() {
         this.paused = true;
         me.state.pause(me.state.PLAY);
@@ -37,22 +40,28 @@ game.PauseScreen = Object.extend ({
         this.setPauseText();
     },
     
+    //Sets the pause text.
     setPauseText: function() {       
+        //Creates a new renderable.
         game.data.pauseText = new (me.Renderable.extend({
+            //Sets thhe font style, font size, and font color.
             init: function() {
                 this._super(me.Renderable, "init", [game.data.pausePos.x, game.data.pausePos.y, 300, 50]);
                 this.font = new me.Font("Arial", 46, "blue");
                 this.updateWhenPaused = true;
                 this.alwaysUpdate = true;
             },
-                    
+            
+            //Draws the word "PAUSED".
             draw: function(renderer) {
                 this.font.draw(renderer.getContext(), "PAUSED", 400, 250);
-           }
+            }
         }));
+        //Adds the child in front of everything.
         me.game.world.addChild(game.data.pauseText, 35);
     },
     
+    //If the game is not pauseing, then the game resumes.
     stopPauseing: function() {
         this.paused = false;
         me.state.resume(me.state.PLAY);

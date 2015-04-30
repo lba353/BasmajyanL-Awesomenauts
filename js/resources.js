@@ -31,12 +31,13 @@ game.resources = [
 	 * {name: "example01", type: "tmx", src: "data/map/example01.json"},
  	 */
         {name: "Test", type: "tmx", src: "data/map/Test.tmx"},
-        {name: "Level01", type: "tmx", src: "data/map/Map.tmx"}
+        {name: "Level01", type: "tmx", src: "data/map/Map.tmx"},
         
 	/* Background music. 
 	 * @example
 	 * {name: "example_bgm", type: "audio", src: "data/bgm/"},
 	 */	
+        {name: "Preparing_For_Battle", type: "audio", src: "data/bgm/"}
 
 	/* Sound effects. 
 	 * @example

@@ -1,4 +1,5 @@
 game.TeamCreep = me.Entity.extend ({
+    //Initiallizes the creep sprite.
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
             image: "creep2",
@@ -20,28 +21,35 @@ game.TeamCreep = me.Entity.extend ({
         //Keeps track of the last time the creep hit anything.
         this.lastHit = new Date().getTime();
         
+        //Sets the velocity
         this.body.setVelocity(3, 20);
         
+        //Sets the type
         this.type = "TeamCreep";
         
+        //Adds and sets the animations
         this.renderable.addAnimation("walk", [6, 7, 8], 80);
         this.renderable.setCurrentAnimation("walk");
         
     },
     
+    //If the creep takes damage, subtract the amount of damage from the total health.
     loseHealth: function(damage) {
         this.health = this.health - damage;
     },
     
     update: function(delta){
+        //If the creep's health is less than 0, then remove the child.
         if(this.health <= 0) {            
             me.game.world.removeChild(this);
         }
         
         this.now = new Date().getTime();
         
+        //Moves the creep to the right.
         this.body.vel.x += this.body.accel.x * me.timer.tick;
         
+        //Check to see if the creep collides with something.
         me.collision.check(this, true, this.collideHandler.bind(this), true); 
         
         this.body.update(delta);

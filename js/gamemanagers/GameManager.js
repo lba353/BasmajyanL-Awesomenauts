@@ -1,14 +1,19 @@
+//Manages the experience variables.
 game.ExperienceManager = Object.extend ({
+    //Sets the alwaysUpdate and gameOver values.
     init: function(x, y, settings) {
         this.alwaysUpdate = true;
         this.gameOver = false;
     },
     
+    //Updates if you win or lose.
     update: function() {
+        //If you win and if it is not game over, go to gameOverWin() and a message says "YOU WIN!".
         if(game.data.win === true && !this.gameOver) {
             this.gameOverWin();
             alert("YOU WIN!");
         }
+        //If you do not win and if it is not game over, go to gameOverLose() and a message says "YOU LOSE!".
         else if(game.data.win === false && !this.gameOver) {
             this.gameOverLose();
             alert("YOU LOSE!");
@@ -16,6 +21,7 @@ game.ExperienceManager = Object.extend ({
         return true;
     },
     
+    //Adds 10 exp and saves the exp by using ajax.
     gameOverWin: function() {
         game.data.exp += 10;
         this.gameOver = true;
@@ -48,6 +54,7 @@ game.ExperienceManager = Object.extend ({
                 });
     },
     
+    //Adds 1 exp and saves the exp using ajax.
     gameOverLose: function() {
         game.data.exp += 1;
         this.gameOver = true;
