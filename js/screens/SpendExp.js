@@ -2,7 +2,10 @@ game.SpendExp = me.ScreenObject.extend({
 	/**	
 	 *  action to perform on state change
 	 */
-	onResetEvent: function() {	
+	onResetEvent: function() {
+                //Plays audio.
+                me.audio.playTrack("Preparing-For-Battle");
+            
 		me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage("exp-screen")), -10);
                 
                 me.input.bindKey(me.input.KEY.F1, "F1");
@@ -61,6 +64,7 @@ game.SpendExp = me.ScreenObject.extend({
                             game.data.exp3 += 1;
                             game.data.exp -= exp3cost;
                             exp3cost = ((Number(game.data.exp3) + 1) * 30);
+                            game.data.playerAttack += 1;
                         }
                         else {
                             alert ("NOT ENOUGH EXPERIENCE");
@@ -71,6 +75,7 @@ game.SpendExp = me.ScreenObject.extend({
                             game.data.exp4 += 1;
                             game.data.exp -= exp4cost;
                             exp4cost = ((Number(game.data.exp4) + 1) * 30);
+                            game.data.playerHealth += 5;
                         }
                         else {
                             alert ("NOT ENOUGH EXPERIENCE");
@@ -87,6 +92,9 @@ game.SpendExp = me.ScreenObject.extend({
 	 *  action to perform when leaving this screen (state change)
 	 */
 	onDestroyEvent: function() {
+            //Stops audio.
+            me.audio.stopTrack();
+            
             me.input.unbindKey(me.input.KEY.F1, "F1");
             me.input.unbindKey(me.input.KEY.F2, "F2");
             me.input.unbindKey(me.input.KEY.F3, "F3");

@@ -2,7 +2,7 @@
 /* Game namespace */
 var game = {
 
-	// an object where to store game information
+	// an object where to store game information used throught the game
 	data : {
 		// score
 		score : 0,
@@ -40,7 +40,8 @@ var game = {
                 buyText: "",
                 pauseScreen: "",
                 pauseText: "",
-                minimap: ""
+                minimap: "",
+                miniPlayer: ""
 	},
 	
 	
@@ -59,6 +60,7 @@ var game = {
 		});
 	}
         
+        //Custom state changes.
         me.state.SPENDEXP = 112;
         me.state.NEW = 113;
         me.state.LOAD = 114;
@@ -78,6 +80,7 @@ var game = {
 
 	// Run on game resources loaded.
 	"loaded" : function () {
+                //Registers the following entities.
                 me.pool.register("player", game.PlayerEntity, true);
                 me.pool.register("enemyPlayer", game.EnemyPlayerEntity, true);
                 me.pool.register("playerBase", game.PlayerBaseEntity);
@@ -91,7 +94,10 @@ var game = {
                 me.pool.register("PauseScreen", game.PauseScreen);
                 me.pool.register("spear", game.SpearThrow);
                 me.pool.register("minimap", game.MiniMap, true);
-            
+                me.pool.register("miniplayer", game.MiniPlayerLocation, true);
+                
+                
+                //Sets the following states.
 		me.state.set(me.state.MENU, new game.TitleScreen());
 		me.state.set(me.state.PLAY, new game.PlayScreen());
                 me.state.set(me.state.SPENDEXP, new game.SpendExp());
